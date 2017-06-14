@@ -1,0 +1,65 @@
+install.packages("ElemStatLearn")
+library(ElemStatLearn)
+data(spam)
+View(spam)
+nrow(spam)
+
+getwd()
+setwd("C:/Users/UGQG3/Desktop/self study/RData/SpamData")
+spamIndicator<-read.table("spamIndicator.txt")
+spamTrain=subset(spam,spamIndicator==0)
+spamTest=subset(spam,spamIndicator==1)
+dim(spamTest)
+View(spamTrain)
+
+
+#
+  # Sometime data is processed and stored in a certain order.  When doing cross validation
+  # on such data sets we don't want to bias our results if we grab the first or the last samples.
+  # Thus we randomize the order of the rows in the Training data frame to make sure that each
+  # cross validation training/testing set is as random as possible.
+  # 
+nSamples = dim(spamTrain)[1] 
+inds = sample( 1:nSamples, nSamples )
+spamTrain = spamTrain[inds,]
+View(spamTrain)
+
+#scale the training dataset and testing dataset
+v58 = spamTrain$spam 
+spamTrain$spam = NULL
+spamTrain= scale(spamTrain, TRUE, TRUE)
+means = attr(spamTrain,"scaled:center")
+stds = attr(spamTrain,"scaled:scale")
+spamTrain= data.frame(spamTrain)
+spamTrain$A.58 = v58
+
+
+# scale the testing predictors by the same amounts:
+# 
+spamTestScale  = spamTest
+v58Test = spamTestScale$spam # in physical units (not mean adjusted)
+spamTestScale$spam = NULL 
+spamTestScale= t( apply( spamTestScale, 1, '-', means ) ) 
+spamTestScale= t( apply( spamTestScale, 1, '/', stds ) ) 
+TestScaleb = cbind( spamTestScale, v58Test ) # append back on the response
+spamTest = data.frame( TestScaleb ) # a data frame containing all scaled variables of interest
+names(spamTest )[length(spamTest )] = "A.58" # fix the name of the response
+
+
+
+
+
+# Many algorithms wont do well if the data is presented all of one class and
+# then all of another class thus we permute our data frames :
+#
+spamTrain= spamTrain[sample(nrow(spamTrain)),]
+spamTest  = spamTest[sample(nrow(spamTest)),]
+
+# Read in the list of s(pam)words (and delete garbage characters):
+# 
+spam_words = read.table("spambase.names",skip=33,sep=":",comment.char="|",stringsAsFactors=F)
+spam_words = spam_words[[1]]
+for( si in 1:length(spam_words) ){
+    spam_words[si] = sub( "word_freq_", "", spam_words[si] )
+    spam_words[si] = sub( "char_freq_", "", spam_words[si] )
+  }
