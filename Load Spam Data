@@ -36,14 +36,14 @@ spamTrain$A.58 = v58
 
 # scale the testing predictors by the same amounts:
 # 
-spamTestScale  = spamTest
-v58Test = spamTestScale$spam # in physical units (not mean adjusted)
-spamTestScale$spam = NULL 
-spamTestScale= t( apply( spamTestScale, 1, '-', means ) ) 
-spamTestScale= t( apply( spamTestScale, 1, '/', stds ) ) 
-TestScaleb = cbind( spamTestScale, v58Test ) # append back on the response
-spamTest = data.frame( TestScaleb ) # a data frame containing all scaled variables of interest
-names(spamTest )[length(spamTest )] = "A.58" # fix the name of the response
+v58Test = spamTest$spam # in physical units (not mean adjusted)
+spamTest$spam = NULL 
+spamTest= t( apply( spamTest, 1, '-', means ) ) 
+spamTest= t( apply( spamTest, 1, '/', stds ) ) 
+spamTest = data.frame( spamTest) # a data frame containing all scaled variables of interest
+spamTest$A.58=v58Test # fix the name of the response
+
+
 
 
 
