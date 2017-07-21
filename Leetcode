@@ -1,0 +1,30 @@
+#75. Sort Colors
+class Solution(object):
+    def sortColors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        i = j = 0
+        for k in range(len(nums)):
+            v = nums[k]
+            nums[k] = 2
+            if v < 2:
+                nums[j] = 1
+                j += 1
+            if v == 0:
+                nums[i] = 0
+                i += 1
+                
+ #77. Combinations              
+    class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+   
+        if k == 0:
+            return [[]]
+        return [pre + [i] for i in range(1, n+1) for pre in self.combine(i-1, k-1)]
