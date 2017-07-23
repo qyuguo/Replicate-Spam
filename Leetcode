@@ -28,3 +28,72 @@ class Solution(object):
         if k == 0:
             return [[]]
         return [pre + [i] for i in range(1, n+1) for pre in self.combine(i-1, k-1)]
+#78 subset
+#Given a set of distinct integers, nums, return all possible subsets.
+def subset(nums):
+    res = [[]]
+    for num in (nums):
+        res += [item+[num] for item in res]
+    return res
+subset([1,2,3])
+
+
+
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+       """
+        if not board:
+                return False
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if self.dfsboard(board,i,j,word):
+                    return True
+        return False
+    
+    def dfsboard(self,board,i,j,word):
+        if len(word)==0:
+            return True
+        if i<0 or i>=len(board) or j<0 or j>=len(board[0]) \
+                or word[0]!=board[i][j]:
+            return False
+        temp=board[i][j]
+        board[i][j]='#'
+        res=self.dfsboard(board,i+1,j,word[1:])\
+                    or self.dfsboard(board,i-1,j,word[1:])\
+                               or self.dfsboard(board,i,j+1,word[1:])\
+                                          or self.dfsboard(board,i,j-1,word[1:])
+        board[i][j]=temp
+        return res
+ 
+ 
+# 81. Search in Rotated Sorted Array II with dup... compare mid and right
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: bool
+        """
+        left=0
+        right=len(nums)-1
+        while(left<=right):
+            mid=(left+right)//2
+            if nums[mid]==target:
+                return True
+            if nums[mid]>nums[right]:
+                if target<nums[mid] and nums[left]<=target:
+                    right=mid-1
+                else:
+                    left=mid+1
+            elif nums[mid]<nums[right]:
+                if target>nums[mid] and target<=nums[right]:
+                    left=mid+1
+                else:right=mid-1
+            else:
+                right-=1
+        return False
+ 
