@@ -1,0 +1,15 @@
+library(ElemStatLearn)
+data(zip.train)
+View(zip.train)
+dim(zip.train)
+data(zip.test)
+View(zip.test)
+dim(zip.test)
+#Boosted Trees gbm bagged80% each boosting shrinkage 0.001-0.1 tree depth 2-9
+#Bagged Neural Network
+#Boosted Neural Network two or four unites nnet package v7.2-36
+#random Forest package randomForest
+#Bayesian Neural Nets [We used the same architecture as in the Bayesian
+	#neural network above (two hidden layers of 20 and 8 units), fit using
+	#both Neals C language package Flexible Bayesian Modeling (2004-
+	#11-10 release), and Matlab neural-net toolbox (version 5.1)]
