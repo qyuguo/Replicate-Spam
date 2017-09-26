@@ -1,0 +1,8 @@
+
+1.Derivative of the cross-entropy cost function for the softmax function
+
+The derivative ${\partial \xi}/{\partial z_i}$ of the cost function with respect to the softmax input $z_i$ can be calculated as:
+
+$$\begin{split} \frac{\partial \xi}{\partial z_i} & = - \sum_{j=1}^C \frac{\partial t_j log(y_j)}{\partial z_i}{} = - \sum_{j=1}^C t_j \frac{\partial log(y_j)}{\partial z_i} = - \sum_{j=1}^C t_j \frac{1}{y_j} \frac{\partial y_j}{\partial z_i} \\ & = - \frac{t_i}{y_i} \frac{\partial y_i}{\partial z_i} - \sum_{j \neq i}^C \frac{t_j}{y_j} \frac{\partial y_j}{\partial z_i} = - \frac{t_i}{y_i} y_i (1-y_i) - \sum_{j \neq i}^C \frac{t_j}{y_j} (-y_j y_i) \\ & = - t_i + t_i y_i + \sum_{j \neq i}^C t_j y_i = - t_i + \sum_{j = 1}^C t_j y_i = -t_i + y_i \sum_{j = 1}^C t_j \\ & = y_i - t_i \end{split}$$
+Note that we already derived ${\partial y_j}/{\partial z_i}$ for $i=j$ and $i \neq j$ above.
+*http://peterroelants.github.io/posts/neural_network_implementation_intermezzo02/
